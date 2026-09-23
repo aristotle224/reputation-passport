@@ -1,7 +1,5 @@
 # reputation-passport
 
-> A portable, cryptographically verifiable reputation protocol for gig and freelance workers — built on **Stellar / Soroban**, with a TypeScript SDK, a NestJS indexing/scoring service, and an Angular reference UI.
-
 Gig workers today rebuild their reputation from zero every time they join a new platform. Ratings, completed jobs, and history are siloed inside each platform's database and disappear the moment the worker moves on. **reputation-passport** turns that history into a set of on-chain attestations that any participating platform can write to, read from, and independently verify — without trusting a central authority to hold the data hostage.
 
 ---
