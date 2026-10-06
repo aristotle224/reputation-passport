@@ -1,0 +1,31 @@
+# Rust / Cargo
+target/
+Cargo.lock
+
+# Soroban
+.soroban/
+.testnet-contract-ids
+
+# Node / pnpm
+node_modules/
+.pnpm-store/
+dist/
+.angular/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Docker
+docker-compose.override.yml
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
