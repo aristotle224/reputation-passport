@@ -1,0 +1,15 @@
+[package]
+name = "profile-registry"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+reputation-passport-shared = { path = "../shared" }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true }

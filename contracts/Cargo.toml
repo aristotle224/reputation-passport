@@ -2,6 +2,8 @@
 members = [
     "shared",
     "issuer-registry",
+    "attestation-registry",
+    "profile-registry",
 ]
 resolver = "2"
 

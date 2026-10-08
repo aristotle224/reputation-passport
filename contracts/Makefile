@@ -22,7 +22,7 @@ RELEASE_DIR  := target/$(WASM_TARGET)/release
 
 # Packages that produce deployable WASM binaries.
 # shared/ is a library only — it does not produce a deployable contract.
-CONTRACTS    := issuer-registry
+CONTRACTS    := issuer-registry attestation-registry profile-registry
 
 # --- Phony targets -----------------------------------------------------------
 
