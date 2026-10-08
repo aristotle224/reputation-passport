@@ -1,0 +1,9 @@
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  roots: ['<rootDir>/test'],
+  testMatch: ['**/*.test.ts'],
+  moduleNameMapper: {
+    '^@reputation-passport/sdk$': '<rootDir>/src/index.ts',
+  },
+};
