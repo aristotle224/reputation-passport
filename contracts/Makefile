@@ -77,30 +77,61 @@ lint:
 # Requires DEPLOYER_SECRET to be set in the environment:
 #   export DEPLOYER_SECRET=<Stellar secret key Sxxxxxxx...>
 #
+# Also requires DEPLOYER_ADDRESS (the public key matching DEPLOYER_SECRET) and
+# ADMIN_ADDRESS (the Stellar address to set as contract admin).
+# If ADMIN_ADDRESS is not set it defaults to DEPLOYER_ADDRESS.
+#
 # Testnet contract IDs are printed to stdout and written to
 # .testnet-contract-ids for use by the SDK/backend.
 
-## deploy-testnet: build and deploy all contracts to Stellar testnet
+## deploy-testnet: build and deploy all contracts to Stellar testnet, then initialise them
 deploy-testnet: build
 	@if [ -z "$$DEPLOYER_SECRET" ]; then \
 		echo "ERROR: DEPLOYER_SECRET is not set. Export your testnet secret key."; \
 		exit 1; \
 	fi
-	@echo "Deploying contracts to Stellar testnet..."
-	@rm -f .testnet-contract-ids
-	@for c in $(CONTRACTS); do \
-		name=$$(echo $$c | tr '-' '_'); \
-		wasm="$(RELEASE_DIR)/$$name.wasm"; \
-		echo "Deploying $$c from $$wasm ..."; \
-		contract_id=$$($(SOROBAN) contract deploy \
-			--wasm $$wasm \
-			--source $$DEPLOYER_SECRET \
-			--network testnet); \
-		echo "  $$c = $$contract_id"; \
-		echo "$$c=$$contract_id" >> .testnet-contract-ids; \
-	done
-	@echo ""
-	@echo "Contract IDs written to .testnet-contract-ids"
+	@if [ -z "$$DEPLOYER_ADDRESS" ]; then \
+		echo "ERROR: DEPLOYER_ADDRESS is not set. Export the public key matching DEPLOYER_SECRET."; \
+		exit 1; \
+	fi
+	@ADMIN=$${ADMIN_ADDRESS:-$$DEPLOYER_ADDRESS}; \
+	echo "Deploying contracts to Stellar testnet (admin: $$ADMIN)..."; \
+	rm -f .testnet-contract-ids; \
+	echo "--- Deploying issuer-registry ---"; \
+	IR_ID=$$($(SOROBAN) contract deploy \
+		--wasm $(RELEASE_DIR)/issuer_registry.wasm \
+		--source $$DEPLOYER_SECRET \
+		--network testnet); \
+	echo "  issuer-registry = $$IR_ID"; \
+	echo "issuer-registry=$$IR_ID" >> .testnet-contract-ids; \
+	$(SOROBAN) contract invoke \
+		--id $$IR_ID --source $$DEPLOYER_SECRET --network testnet \
+		-- initialize --admin $$ADMIN --min_stake 100; \
+	echo "  issuer-registry initialised"; \
+	echo "--- Deploying attestation-registry ---"; \
+	AR_ID=$$($(SOROBAN) contract deploy \
+		--wasm $(RELEASE_DIR)/attestation_registry.wasm \
+		--source $$DEPLOYER_SECRET \
+		--network testnet); \
+	echo "  attestation-registry = $$AR_ID"; \
+	echo "attestation-registry=$$AR_ID" >> .testnet-contract-ids; \
+	$(SOROBAN) contract invoke \
+		--id $$AR_ID --source $$DEPLOYER_SECRET --network testnet \
+		-- initialize --issuer_registry $$IR_ID; \
+	echo "  attestation-registry initialised"; \
+	echo "--- Deploying profile-registry ---"; \
+	PR_ID=$$($(SOROBAN) contract deploy \
+		--wasm $(RELEASE_DIR)/profile_registry.wasm \
+		--source $$DEPLOYER_SECRET \
+		--network testnet); \
+	echo "  profile-registry = $$PR_ID"; \
+	echo "profile-registry=$$PR_ID" >> .testnet-contract-ids; \
+	$(SOROBAN) contract invoke \
+		--id $$PR_ID --source $$DEPLOYER_SECRET --network testnet \
+		-- initialize --admin $$ADMIN; \
+	echo "  profile-registry initialised"; \
+	echo ""; \
+	echo "All contracts deployed and initialised. IDs written to .testnet-contract-ids"
 
 # --- Clean -------------------------------------------------------------------
 
