@@ -1,0 +1,20 @@
+{
+  "name": "@reputation-passport/widget",
+  "version": "0.1.0",
+  "description": "Browser-safe, read-only reputation widget client for reputation-passport",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/jest": "29.5.12",
+    "@types/node": "20.11.5",
+    "jest": "29.7.0",
+    "ts-jest": "29.1.2",
+    "typescript": "5.3.3"
+  }
+}
