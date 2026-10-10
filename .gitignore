@@ -12,6 +12,13 @@ node_modules/
 dist/
 .angular/
 
+# Angular
+.angular/
+frontend/*/dist/
+
+# Plan (sprint artefact, not part of the repo)
+Plan.md
+
 # Environment
 .env
 .env.*
