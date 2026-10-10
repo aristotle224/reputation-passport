@@ -1,0 +1,27 @@
+<div class="share-profile">
+  <h3>Share your profile</h3>
+
+  <div class="share-row">
+    <input
+      class="link-input"
+      type="text"
+      [value]="shareUrl"
+      readonly
+      aria-label="Shareable profile URL"
+    />
+    <button class="copy-btn" (click)="copyLink()" aria-label="Copy profile link">
+      {{ copied ? '✅ Copied!' : '📋 Copy link' }}
+    </button>
+  </div>
+
+  <div class="qr-wrap">
+    <img
+      [src]="qrUrl"
+      alt="QR code for your reputation profile"
+      width="160"
+      height="160"
+      loading="lazy"
+    />
+    <p class="qr-hint">Scan to open on another device</p>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+.connect-wallet {
+  max-width: 420px;
+  margin: 60px auto;
+  padding: 32px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  text-align: center;
+  font-family: system-ui, sans-serif;
+}
+
+.connect-wallet h2 { margin-top: 0; color: #1a202c; }
+.connect-wallet p { color: #4a5568; }
+
+.wallet-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.wallet-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.wallet-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.wallet-btn.freighter { background: #6c63ff; color: #fff; }
+.wallet-btn.freighter:hover:not(:disabled) { background: #574fd6; }
+
+.wallet-btn.albedo { background: #38a169; color: #fff; }
+.wallet-btn.albedo:hover:not(:disabled) { background: #2f8556; }
+
+.status { color: #718096; font-style: italic; margin-top: 16px; }
+
+.error {
+  margin-top: 16px;
+  color: #c53030;
+  background: #fff5f5;
+  border: 1px solid #fc8181;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+}

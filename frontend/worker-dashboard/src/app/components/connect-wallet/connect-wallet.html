@@ -1,0 +1,34 @@
+<div class="connect-wallet">
+  <h2>Connect your wallet</h2>
+  <p>Connect a Stellar wallet to view your portable reputation passport.</p>
+
+  <div class="wallet-options">
+    <button
+      class="wallet-btn freighter"
+      [disabled]="connecting"
+      (click)="connectFreighter()"
+      aria-label="Connect with Freighter"
+    >
+      <span class="wallet-icon">🔒</span>
+      Connect with Freighter
+    </button>
+
+    <button
+      class="wallet-btn albedo"
+      [disabled]="connecting"
+      (click)="connectAlbedo()"
+      aria-label="Connect with Albedo"
+    >
+      <span class="wallet-icon">🌐</span>
+      Connect with Albedo
+    </button>
+  </div>
+
+  @if (connecting) {
+    <p class="status">Connecting…</p>
+  }
+
+  @if (error) {
+    <p class="error" role="alert">{{ error }}</p>
+  }
+</div>

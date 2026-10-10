@@ -1,0 +1,31 @@
+<div class="score-card" aria-label="Reputation score card">
+  <div class="overall">
+    <span class="score-value">{{ profile().score | number:'1.1-2' }}</span>
+    <span class="score-label">/ 5.0 overall</span>
+    <div class="star-bar" role="img" [attr.aria-label]="'Score ' + profile().score + ' out of 5'">
+      <div class="stars-empty">★★★★★</div>
+      <div class="stars-filled" [style.width.%]="starPercent(profile().score)">★★★★★</div>
+    </div>
+    <p class="attestation-count">
+      Based on {{ profile().attestationCount }} verified attestation{{ profile().attestationCount !== 1 ? 's' : '' }}
+    </p>
+    <p class="algorithm-tag">Algorithm: {{ profile().algorithmVersion }}</p>
+  </div>
+
+  @if (breakdownEntries.length > 0) {
+    <div class="breakdown">
+      <h3>Score by category</h3>
+      <ul class="breakdown-list">
+        @for (entry of breakdownEntries; track entry.category) {
+          <li class="breakdown-item">
+            <span class="cat-label">{{ categoryLabel(entry.category) }}</span>
+            <div class="cat-bar-wrap">
+              <div class="cat-bar" [style.width.%]="starPercent(entry.score)"></div>
+            </div>
+            <span class="cat-score">{{ entry.score | number:'1.1-2' }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>

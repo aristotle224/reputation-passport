@@ -1,0 +1,36 @@
+<div class="attestation-list">
+  <div class="list-header">
+    <h3>Attestation history</h3>
+    @if (revokedCount > 0) {
+      <label class="show-revoked">
+        <input type="checkbox" [(ngModel)]="showRevoked" />
+        Show {{ revokedCount }} revoked
+      </label>
+    }
+  </div>
+
+  @if (visible.length === 0) {
+    <p class="empty">No attestations found.</p>
+  } @else {
+    <ul class="items" aria-label="Attestation records">
+      @for (a of visible; track a.nonce + a.issuerAddress) {
+        <li class="item" [class.revoked]="a.revoked">
+          <div class="item-top">
+            <span class="category">{{ categoryLabel(a.jobType) }}</span>
+            <span class="rating">{{ formatRating(a.rating) }} / 5.0</span>
+            @if (a.revoked) {
+              <span class="revoked-badge" aria-label="Revoked">Revoked</span>
+            }
+          </div>
+          <div class="item-meta">
+            <span class="date">{{ formatDate(a.timestamp) }}</span>
+            <span class="issuer" [title]="a.issuerAddress">
+              Issuer: {{ shortAddress(a.issuerAddress) }}
+            </span>
+            <span class="nonce">nonce #{{ a.nonce }}</span>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</div>

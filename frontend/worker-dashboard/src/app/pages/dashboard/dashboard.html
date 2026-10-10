@@ -1,0 +1,74 @@
+@if (state === 'disconnected') {
+  <app-connect-wallet (connected)="onWalletConnected($event)" />
+}
+
+@if (state === 'loading') {
+  <div class="loading" role="status" aria-live="polite">
+    <span class="spinner" aria-hidden="true"></span>
+    <p>Loading your reputation passport…</p>
+  </div>
+}
+
+@if (state === 'error') {
+  <div class="error-state" role="alert">
+    <p>{{ errorMessage }}</p>
+    <button (click)="disconnect()">Try again</button>
+  </div>
+}
+
+@if (state === 'loaded' && profile) {
+  <div class="dashboard-layout">
+    <!-- Header -->
+    <header class="dash-header">
+      <div class="dash-brand">
+        <span class="logo">🛂</span>
+        <strong>Reputation Passport</strong>
+      </div>
+      <div class="dash-user">
+        <span class="address" [title]="address ?? ''">{{ shortAddress(address) }}</span>
+        <button class="disconnect-btn" (click)="disconnect()">Disconnect</button>
+      </div>
+    </header>
+
+    <!-- Tab nav -->
+    <nav class="tab-nav" aria-label="Dashboard sections">
+      <button
+        class="tab-btn"
+        [class.active]="activeView === 'score'"
+        (click)="setView('score')"
+        aria-selected="{{ activeView === 'score' }}"
+      >
+        Score
+      </button>
+      <button
+        class="tab-btn"
+        [class.active]="activeView === 'history'"
+        (click)="setView('history')"
+        aria-selected="{{ activeView === 'history' }}"
+      >
+        History ({{ profile.attestationCount }})
+      </button>
+      <button
+        class="tab-btn"
+        [class.active]="activeView === 'share'"
+        (click)="setView('share')"
+        aria-selected="{{ activeView === 'share' }}"
+      >
+        Share
+      </button>
+    </nav>
+
+    <!-- Tab panels -->
+    <main class="tab-content">
+      @if (activeView === 'score') {
+        <app-score-card [profile]="profile" />
+      }
+      @if (activeView === 'history') {
+        <app-attestation-list [attestations]="profile.attestations" />
+      }
+      @if (activeView === 'share') {
+        <app-share-profile [workerAddress]="profile.workerAddress" />
+      }
+    </main>
+  </div>
+}
