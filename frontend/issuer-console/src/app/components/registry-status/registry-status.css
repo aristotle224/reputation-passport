@@ -1,0 +1,35 @@
+.registry-status {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 20px 24px;
+  font-family: system-ui, sans-serif;
+}
+
+.registry-status h3 { margin: 0 0 14px; font-size: 15px; color: #a0aec0; text-transform: uppercase; }
+
+.loading { color: #a0aec0; font-style: italic; }
+
+.status-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+
+.status-icon { font-size: 20px; }
+
+.status-label {
+  font-size: 18px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 6px;
+}
+
+.active   { color: #276749; background: #f0fff4; }
+.suspended { color: #975a16; background: #fffff0; }
+.delisted { color: #c53030; background: #fff5f5; }
+.unknown  { color: #718096; background: #edf2f7; }
+
+.address { font-size: 13px; color: #718096; margin: 0 0 8px; }
+
+code { background: #edf2f7; padding: 1px 4px; border-radius: 3px; font-size: 12px; }
+
+.hint { font-size: 13px; color: #4a5568; margin: 6px 0 0; }
+.hint.warn { color: #975a16; }
+.hint.error { color: #c53030; }

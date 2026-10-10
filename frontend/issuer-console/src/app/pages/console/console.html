@@ -1,0 +1,67 @@
+<div class="console-layout">
+  <!-- Header -->
+  <header class="console-header">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">🛂</span>
+      <strong>Reputation Passport — Issuer Console</strong>
+    </div>
+  </header>
+
+  <!-- Tab nav -->
+  <nav class="tab-nav" aria-label="Console sections">
+    <button class="tab-btn" [class.active]="activeView === 'status'"
+            (click)="setView('status')" aria-selected="{{ activeView === 'status' }}">
+      Registry Status
+    </button>
+    <button class="tab-btn" [class.active]="activeView === 'attest'"
+            (click)="setView('attest')" aria-selected="{{ activeView === 'attest' }}">
+      Submit Attestation
+    </button>
+    <button class="tab-btn" [class.active]="activeView === 'disputes'"
+            (click)="setView('disputes')" aria-selected="{{ activeView === 'disputes' }}">
+      Disputes
+    </button>
+  </nav>
+
+  <!-- Status tab -->
+  @if (activeView === 'status') {
+    <section class="tab-content" aria-labelledby="tab-status">
+      <div class="lookup-row">
+        <input
+          type="text"
+          [(ngModel)]="inputAddress"
+          placeholder="Issuer G-address…"
+          aria-label="Issuer address"
+          (keyup.enter)="lookupStatus()"
+        />
+        <button class="lookup-btn" (click)="lookupStatus()" [disabled]="loadingStatus || !inputAddress.trim()">
+          Look up
+        </button>
+      </div>
+
+      @if (issuerAddress) {
+        <app-registry-status
+          [issuerAddress]="issuerAddress"
+          [status]="registryStatus"
+          [loading]="loadingStatus"
+        />
+      } @else {
+        <p class="placeholder">Enter an issuer address above to check registry status.</p>
+      }
+    </section>
+  }
+
+  <!-- Attest tab -->
+  @if (activeView === 'attest') {
+    <section class="tab-content" aria-labelledby="tab-attest">
+      <app-attest-form (submitted)="onAttestSubmitted($event)" />
+    </section>
+  }
+
+  <!-- Disputes tab -->
+  @if (activeView === 'disputes') {
+    <section class="tab-content" aria-labelledby="tab-disputes">
+      <app-dispute-placeholder />
+    </section>
+  }
+</div>

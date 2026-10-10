@@ -1,0 +1,32 @@
+<div class="registry-status">
+  <h3>Registry Status</h3>
+
+  @if (loading()) {
+    <p class="loading" role="status">Checking status…</p>
+  } @else {
+    <div class="status-row">
+      <span class="status-icon" aria-hidden="true">{{ statusIcon }}</span>
+      <span class="status-label" [class]="statusClass">{{ status() }}</span>
+    </div>
+    <p class="address" [title]="issuerAddress()">
+      Address: <code>{{ shortAddress(issuerAddress()) }}</code>
+    </p>
+    @if (status() === 'Suspended') {
+      <p class="hint warn">
+        This issuer is suspended. Attestation writes will be rejected by the contract
+        until suspension is lifted by protocol governance.
+      </p>
+    }
+    @if (status() === 'Delisted') {
+      <p class="hint error">
+        This issuer has been delisted and can no longer write attestations.
+      </p>
+    }
+    @if (status() === 'Unknown') {
+      <p class="hint">
+        Unable to fetch registry status. Check that the backend is running and
+        the issuer address is correct.
+      </p>
+    }
+  }
+</div>

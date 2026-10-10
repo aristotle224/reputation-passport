@@ -1,0 +1,83 @@
+<form class="attest-form" (ngSubmit)="submit()" #f="ngForm">
+  <h3>Submit Attestation</h3>
+
+  @if (!result) {
+    <div class="field">
+      <label for="issuer">Issuer address</label>
+      <input id="issuer" type="text" [(ngModel)]="form.issuerAddress" name="issuerAddress"
+             placeholder="GABC…" required autocomplete="off" />
+    </div>
+
+    <div class="field">
+      <label for="apiKey">API key</label>
+      <input id="apiKey" type="password" [(ngModel)]="apiKey" name="apiKey"
+             placeholder="Your issuer API key" autocomplete="current-password" />
+    </div>
+
+    <div class="field">
+      <label for="subject">Worker address</label>
+      <input id="subject" type="text" [(ngModel)]="form.subject" name="subject"
+             placeholder="GWOR…" required autocomplete="off" />
+    </div>
+
+    <div class="field">
+      <label for="jobType">Job type</label>
+      <select id="jobType" [(ngModel)]="form.jobType" name="jobType">
+        @for (jt of jobTypes; track jt) {
+          <option [value]="jt">{{ jt }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="rating">Rating: <strong>{{ displayRating }} / 5.0</strong></label>
+      <input id="rating" type="range" min="0" max="500" step="10"
+             [(ngModel)]="form.rating" name="rating" />
+    </div>
+
+    <div class="field">
+      <label for="weight">Weight (job value/duration)</label>
+      <input id="weight" type="number" min="1" [(ngModel)]="form.weight" name="weight" required />
+    </div>
+
+    <div class="field">
+      <label for="evidenceHash">Evidence hash (hex 32 bytes)</label>
+      <input id="evidenceHash" type="text" [(ngModel)]="form.evidenceHash" name="evidenceHash"
+             placeholder="0000…0000" pattern="[0-9a-fA-F]{64}" required />
+    </div>
+
+    <div class="field checkbox">
+      <label>
+        <input type="checkbox" [(ngModel)]="form.custodialSign" name="custodialSign" />
+        Custodial sign (backend signs &amp; submits)
+      </label>
+      <p class="hint">
+        Default (unchecked): returns unsigned XDR for you to sign locally
+        — the trust-minimized path per README.
+      </p>
+    </div>
+
+    @if (error) {
+      <p class="error" role="alert">{{ error }}</p>
+    }
+
+    <button type="submit" class="submit-btn" [disabled]="submitting || f.invalid">
+      {{ submitting ? 'Submitting…' : 'Submit attestation' }}
+    </button>
+  }
+
+  @if (result) {
+    <div class="result" role="status">
+      @if (result.unsignedXdr) {
+        <p class="success">✅ Unsigned XDR ready. Sign and submit using your issuer key.</p>
+        <label for="xdr-output">Unsigned transaction XDR</label>
+        <textarea id="xdr-output" class="xdr-output" readonly rows="5">{{ result.unsignedXdr }}</textarea>
+      }
+      @if (result.txHash) {
+        <p class="success">✅ Transaction submitted.</p>
+        <p class="txhash"><strong>Tx hash:</strong> <code>{{ result.txHash }}</code></p>
+      }
+      <button type="button" class="reset-btn" (click)="reset()">Submit another</button>
+    </div>
+  }
+</form>
