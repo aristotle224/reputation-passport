@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reputation Badge Demo — reputation-passport</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f7fafc;
+      padding: 40px;
+      color: #2d3748;
+    }
+    h1 { margin-bottom: 8px; }
+    p { color: #718096; }
+    .demo-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: 32px;
+      align-items: flex-start;
+    }
+    .demo-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+      min-width: 280px;
+    }
+    .demo-card h2 { margin: 0 0 12px; font-size: 15px; color: #a0aec0; text-transform: uppercase; }
+    pre {
+      background: #edf2f7;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      overflow-x: auto;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🛂 Reputation Passport — Embeddable Badge Demo</h1>
+  <p>
+    This page demonstrates the <code>&lt;reputation-badge&gt;</code> custom element
+    dropped into a plain static HTML page — no Angular, React, or framework required.
+  </p>
+  <p>
+    Set <code>backend-url</code> to your local backend (or testnet API) and
+    <code>address</code> to a Stellar worker address to see live data.
+  </p>
+
+  <div class="demo-grid">
+    <!-- Full badge -->
+    <div class="demo-card">
+      <h2>Standard badge</h2>
+      <reputation-badge
+        address="GABC1234STUB5678DEMO9012REPUTATIONPASSPORT0000000000000000000"
+        backend-url="http://localhost:3000"
+      ></reputation-badge>
+      <pre>&lt;reputation-badge
+  address="GABC…"
+  backend-url="http://localhost:3000"
+&gt;&lt;/reputation-badge&gt;</pre>
+    </div>
+
+    <!-- Compact badge -->
+    <div class="demo-card">
+      <h2>Compact badge</h2>
+      <reputation-badge
+        address="GABC1234STUB5678DEMO9012REPUTATIONPASSPORT0000000000000000000"
+        backend-url="http://localhost:3000"
+        compact
+      ></reputation-badge>
+      <pre>&lt;reputation-badge
+  address="GABC…"
+  backend-url="http://localhost:3000"
+  compact
+&gt;&lt;/reputation-badge&gt;</pre>
+    </div>
+
+    <!-- Error state (invalid backend) -->
+    <div class="demo-card">
+      <h2>Error state</h2>
+      <reputation-badge
+        address="GABC…"
+        backend-url="http://invalid.example.invalid"
+      ></reputation-badge>
+    </div>
+
+    <!-- Missing attributes -->
+    <div class="demo-card">
+      <h2>Missing attribute state</h2>
+      <reputation-badge></reputation-badge>
+    </div>
+  </div>
+
+  <!-- Load the self-contained widget bundle -->
+  <script src="dist/widget.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "@reputation-passport/embeddable-widget",
+  "version": "0.1.0",
+  "description": "Drop-in embeddable reputation badge for reputation-passport",
+  "main": "dist/widget.js",
+  "scripts": {
+    "build": "npx esbuild src/widget.ts --bundle --outfile=dist/widget.js --format=iife --global-name=ReputationWidget",
+    "build:dev": "npx esbuild src/widget.ts --bundle --outfile=dist/widget.dev.js --format=iife --global-name=ReputationWidget --sourcemap"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.0",
+    "typescript": "5.3.3"
+  }
+}
